@@ -1,5 +1,6 @@
 # PiStepper
 Python script allowing the control of a stepper motor drive with a Raspberry Pi.
+The intention of this program is to allow remote control of the focuser of a Dobsonian telescope.
 
 Tested on Raspberry Pi 4  Model B.
 Stepper motor is a NEMA 17 bipolar motor made by STEPPERONLINE.
