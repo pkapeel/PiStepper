@@ -25,10 +25,13 @@ GPIO.setup(PUL, GPIO.OUT)
 GPIO.setup(ENA, GPIO.OUT)
 
 # CONFIGURE PWM CONTROL CHARACTERISTICS
-
-
-# CONFIGURE STEP PIN AS PWM WITH FREQUENCY
-pulse = GPIO.PWM(PUL, 3200)
+frequencyPWM = 3200 # FREQUENCY OF PWM FROM PI (Hz)
+dutycyclePWM = 50 # DUTY CYCLE OF PWM FROM PI (%)
+PWM = GPIO.PWM(PUL, frequencyPWM) #CONFIGURE PUL PIN AS PWM
+PPR = 3200 # PULSES PER REVOLUTION. DIP STICK MISCROSTEP SETTING ON DRIVER
+RPS = frequencyPWM / PPR # REVS PER SECOND OF MOTOR SHAFT
+RPM = RPS / 60 # REVS PER MINUTE OF MOTOR SHAFT
+print(RPS, 'REVOLUTIONS PER SECOND =', RPM, 'REVOLUTIONS PER MINUTE')
 
 try:
     while True:
@@ -36,12 +39,12 @@ try:
             #print("Clockwise!") # TERMINAL FEEDBACK
             GPIO.output(ENA, False) # ENABLE THE MOTOR DRIVE
             GPIO.output(DIR, True) # SET DIRECTION PIN TO HIGH
-            pulse.start(50) # START PWM WITH 50% DUTY CYCLE
+            PWM.start(dutycyclePWM) # START PWM WITH 50% DUTY CYCLE
         elif GPIO.input(switchCCW): # SWITCH IN COUNTERCLOCKWISE POSITION?
             #print("Counterclockwise!") # TERMINAL FEEDBACK
             GPIO.output(ENA, False) # ENABLE THE MOTOT DRIVE
             GPIO.output(DIR, False) # SET DIRECTION PIN TO LOW
-            pulse.start(50) # START PWM WITH 50% DUTY CYCLE
+            PWM.start(dutycyclePWM) # START PWM WITH 50% DUTY CYCLE
         else: # SWITCH IN CENTER POSITION
             #print("Idle!") # TERMINAL FEEDBACK
             GPIO.output(DIR, False) # SET DIRECTION PIN TO LOW
